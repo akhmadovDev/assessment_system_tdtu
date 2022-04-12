@@ -2,6 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\Assessment;
+use app\models\Group;
+use app\models\Student;
+use app\models\Subject;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,7 +65,40 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        /** aktiv talabalarning umumiy soni */
+        $active_student = Student::find()
+            ->asArray()
+            ->where(['status' => true])
+            ->all();
+
+        /** aktiv guruhlarning umumiy soni umumiy soni */
+        $active_group = Group::find()
+            ->asArray()
+            ->where(['status' => true])
+            ->all();
+        /** aktiv fanlarning umumiy soni umumiy soni umumiy soni */
+        $active_subject = Subject::find()
+            ->asArray()
+            ->where(['status' => true])
+            ->all();
+
+        /** Talabalarning nb lar soni */
+        $student_nb = Assessment::find()
+            ->asArray()
+            ->where(['status'=>true, 'rating' => 'nb'])
+            ->all();
+
+//        echo '<pre>';
+//        print_r($student_nb);
+//        echo '</pre>';
+//        exit();
+
+        return $this->render('index', [
+            'students' => $active_student,
+            'groups' => $active_group,
+            'subjects' => $active_subject,
+            'nbs' => $student_nb
+        ]);
     }
 
     /**

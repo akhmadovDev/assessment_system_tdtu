@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    RewriteEngine On
+</IfModule>
+
+<IfModule mod_rewrite.c>
+
+
+    RewriteCond %{REQUEST_URI} ^/api/ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^.*$ api/index.php [QSA,L]
+
+    RewriteCond %{REQUEST_URI} ^/.*
+    RewriteRule ^(.*)$ web/$1 [L]
+    RewriteRule ^assets/(.*)$ /web/assets/$1 [L]
+    RewriteRule ^css/(.*)$ web/css/$1 [L]
+    RewriteRule ^js/(.*)$ web/js/$1 [L]
+    RewriteRule ^img/(.*)$ web/img/$1 [L]
+    RewriteRule ^fonts/(.*)$ web/fonts/$1 [L]
+
+
+    RewriteCond %{REQUEST_URI} !^/web/
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ web/index.php
+</IfModule>
